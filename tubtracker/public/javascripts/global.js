@@ -1,5 +1,6 @@
 // Flavourlist data array for filling in info box
 var flavourListData = [];
+var editMode = false;
 
 // DOM Ready =============================================================
 $(document).ready(function() {
@@ -13,7 +14,10 @@ $(document).ready(function() {
   // Add Flavour button click
   $('#btnAddFlavour').on('click', addFlavour);
 
-  // Delete User link click
+  // Edit Flavour link click
+  $('#flavourList table tbody').on('click', 'td a.linkeditflavour', editFlavour);
+
+  // Delete Flavour link click
   $('#flavourList table tbody').on('click', 'td a.linkdeleteflavour', deleteFlavour);
 
 });
@@ -37,6 +41,7 @@ function populateTable() {
       tableContent += '<tr>';
       tableContent += '<td><a href="#" class="linkshowflavour" rel="' + this.flavour_name + '">' + this.flavour_name + '</a></td>';
       tableContent += '<td>' + this.supplier + '</td>';
+      tableContent += '<td><a href="#" class="linkeditflavour" rel="' + this._id + '">edit</a></td>';
       tableContent += '<td><a href="#" class="linkdeleteflavour" rel="' + this._id + '">delete</a></td>';
       tableContent += '</tr>';
     });
@@ -69,30 +74,64 @@ function showFlavourInfo(event) {
 
 // Add Flavour
 function addFlavour(event) {
-    event.preventDefault();
+  event.preventDefault();
+
+  // Super basic validation - increase errorCount variable if any fields are blank
+  var errorCount = 0;
+  $('#addFlavour input').each(function(index, val) {
+    if($(this).val() === '') { errorCount++; }
+  });
+
+  // Check and make sure errorCount's still at zero
+  if(errorCount === 0) {
+    // If it is, compile all flavour info into one object
+    var flavourEntry = {
+      'flavour_name': $('#addFlavour fieldset input#inputFlavourName').val(),
+      'supplier': $('#addFlavour fieldset input#inputFlavourSupplier').val(),
+      'product_type': $('#addFlavour fieldset input#inputFlavourProductType').val(),
+      'quantity_per_unit': $('#addFlavour fieldset input#inputFlavourQuantityPerUnit').val(),
+      'price': $('#addFlavour fieldset input#inputFlavourPrice').val(),
+    }
   
-    // Super basic validation - increase errorCount variable if any fields are blank
-    var errorCount = 0;
-    $('#addFlavour input').each(function(index, val) {
-      if($(this).val() === '') { errorCount++; }
-    });
+    // if we're editing a flavour, change the content in the DB for this flavour entry
+    if (editMode) {
+      // Use AJAX to put the object to our editflavour service
+      $.ajax({
+        type: 'PUT',
+        data: flavourEntry,
+        url: '/users/editflavour',
+        dataType: 'JSON'
+      }).done(function( response ) {
   
-    // Check and make sure errorCount's still at zero
-    if(errorCount === 0) {
+        // Check for successful (blank) response
+        if (response.msg === '') {
   
-      // If it is, compile all flavour info into one object
-      var newFlavour = {
-        'flavour_name': $('#addFlavour fieldset input#inputFlavourName').val(),
-        'supplier': $('#addFlavour fieldset input#inputFlavourSupplier').val(),
-        'product_type': $('#addFlavour fieldset input#inputFlavourProductType').val(),
-        'quantity_per_unit': $('#addFlavour fieldset input#inputFlavourQuantityPerUnit').val(),
-        'price': $('#addFlavour fieldset input#inputFlavourPrice').val(),
-      }
+          // Clear the form inputs
+          $('#addFlavour fieldset input').val('');
   
+          // Update the table
+          populateTable();
+  
+        }
+        else {
+  
+          // If something goes wrong, alert the error message that our service returned
+          alert('Error: ' + response.msg);
+  
+        }
+      });
+
+      // reset into Add mode
+      editMode = false;
+      $("addFlavourHeader").text("Add Flavour");
+      $("btnAddFlavour").text("Add Flavour");
+    }
+    // otherwise, add the flavour to the DB for the first time
+    else {    
       // Use AJAX to post the object to our addflavour service
       $.ajax({
         type: 'POST',
-        data: newFlavour,
+        data: flavourEntry,
         url: '/users/addflavour',
         dataType: 'JSON'
       }).done(function( response ) {
@@ -115,12 +154,40 @@ function addFlavour(event) {
         }
       });
     }
-    else {
-      // If errorCount is more than 0, error out
-      alert('Please fill in all fields');
-      return false;
-    }
-  };
+  } else {
+    // If errorCount is more than 0, error out
+    alert('Please fill in all fields');
+    return false;
+  }
+};
+
+// Edit Flavour
+function editFlavour(event) {
+
+  event.preventDefault();
+
+  // set the form to Edit mode 
+  editFlavour = true;
+  $("addFlavourHeader").text("Edit Flavour");
+  $("btnAddFlavour").text("Edit Flavour");
+  
+  // fill in text fields with info on the flavour from the database
+    // Retrieve flavour_name from link rel attribute
+    var thisFlavourName = $(this).attr('rel');
+    
+    // Get Index of object based on id value
+    var arrayPosition = flavourListData.map(function(arrayItem) { return arrayItem.flavour_name; }).indexOf(thisFlavourName);
+
+    // Get our Flavour Object
+    var thisFlavourObject = flavourListData[arrayPosition];
+
+    //Populate text boxes
+    $('#inputFlavourName').text(thisFlavourObject.flavour_name);
+    $('#inputFlavourSupplier').text(thisFlavourObject.supplier);
+    $('#inputFlavourProductType').text(thisFlavourObject.product_type);
+    $('#inputFlavourQuantityPerUnit').text(thisFlavourObject.quantity_per_unit);
+    $('#inputFlavourPrice').text(thisFlavourObject.price);
+};
 
 // Delete Flavour
 function deleteFlavour(event) {

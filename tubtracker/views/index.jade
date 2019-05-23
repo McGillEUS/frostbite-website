@@ -28,12 +28,13 @@ block content
         thead
           th Flavour Name
           th Flavour Supplier
+          th Edit?
           th Delete?
         tbody
     // /FLAVOUR LIST
 
-    // ADD USER
-    h2 Add Flavour
+    // ADD FLAVOUR
+    h2#addFlavourHeader Add Flavour
     #addFlavour
       fieldset
         input#inputFlavourName(type='text', placeholder='Flavour Name')
@@ -45,6 +46,6 @@ block content
         input#inputFlavourPrice(type='text', placeholder='Price')
         br
         button#btnAddFlavour Add Flavour
-    // /ADD USER
+    // /ADD FLAVOUR
 
   // /WRAPPER

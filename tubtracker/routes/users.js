@@ -21,6 +21,16 @@ router.post('/addflavour', function(req, res) {
   });
 });
 
+/* PUT to editflavour */
+router.put('/editflavour', function(req, res) {
+  var db = req.db;
+  var collection = db.get('flavourlist');
+
+  // TODO find the element in the collection
+  // TODO update the element with the data from the form
+
+});
+
 /* DELETE to deleteflavour */
 router.delete('/deleteflavour/:id', function(req, res) {
   var db = req.db;
