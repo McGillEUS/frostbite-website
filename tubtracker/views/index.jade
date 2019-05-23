@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to Frostbite Management
+
+  // Wrapper
+  #wrapper
+
+    // FLAVOUR INFO
+    #flavourInfo
+      h2 Flavour Info
+      p
+        strong Product Type:
+        |  <span id='flavourInfoType'></span>
+        br
+        strong Quantity per Unit:
+        |  <span id='flavourInfoQuantity'></span>
+        br
+        strong Price:
+        |  <span id='flavourInfoPrice'></span>
+    // /FLAVOUR INFO
+
+    // FLAVOUR LIST
+    h2 Flavour List
+    #flavourList
+      table
+        thead
+          th Flavour Name
+          th Flavour Supplier
+          th Delete?
+        tbody
+    // /FLAVOUR LIST
+
+    // ADD USER
+    h2 Add Flavour
+    #addFlavour
+      fieldset
+        input#inputFlavourName(type='text', placeholder='Flavour Name')
+        input#inputFlavourSupplier(type='text', placeholder='Supplier')
+        br
+        input#inputFlavourProductType(type='text', placeholder='Product Type')
+        input#inputFlavourQuantityPerUnit(type='text', placeholder='Quantity per Unit')
+        br
+        input#inputFlavourPrice(type='text', placeholder='Price')
+        br
+        button#btnAddFlavour Add Flavour
+    // /ADD USER
+
+  // /WRAPPER
