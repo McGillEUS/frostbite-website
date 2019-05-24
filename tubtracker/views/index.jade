@@ -2,7 +2,6 @@ extends layout
 
 block content
   h1= title
-  p Welcome to Frostbite Management
 
   // Wrapper
   #wrapper
@@ -20,6 +19,17 @@ block content
         strong Price:
         |  <span id='flavourInfoPrice'></span>
     // /FLAVOUR INFO
+
+    // FLAVOUR HISTORY
+    h2 Flavour History
+    #flavourHistory
+      table
+        thead
+          th Open
+          th Close
+          th Working Days to Complete
+        tbody
+    // /FLAVOUR HISTORY
 
     // FLAVOUR LIST
     h2 Flavour List

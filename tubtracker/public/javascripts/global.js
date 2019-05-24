@@ -10,13 +10,10 @@ $(document).ready(function() {
 
   // flavour_name link click
   $('#flavourList table tbody').on('click', 'td a.linkshowflavour', showFlavourInfo);
-
   // Add Flavour button click
   $('#btnAddFlavour').on('click', addFlavour);
-
   // Edit Flavour link click
   $('#flavourList table tbody').on('click', 'td a.linkeditflavour', editFlavour);
-
   // Delete Flavour link click
   $('#flavourList table tbody').on('click', 'td a.linkdeleteflavour', deleteFlavour);
 
