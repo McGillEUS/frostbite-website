@@ -1,6 +1,6 @@
 // Flavourlist data array for filling in info box
 var flavourListData = [];
-var editMode = false;
+var idInEditing = '';
 
 // DOM Ready =============================================================
 $(document).ready(function() {
@@ -31,7 +31,7 @@ function populateTable() {
   var tableContent = '';
 
   // jQuery AJAX call for JSON
-  $.getJSON( '/users/flavourlist', function( data ) {
+  $.getJSON( '/flavours/flavourlist', function( data ) {
 
     // Stick our flavour data array into a flavourlist variable in the global object
     flavourListData = data;
@@ -94,12 +94,12 @@ function addFlavour(event) {
     }
   
     // if we're editing a flavour, change the content in the DB for this flavour entry
-    if (editMode) {
+    if (idInEditing != '') {
       // Use AJAX to put the object to our editflavour service
       $.ajax({
         type: 'PUT',
         data: flavourEntry,
-        url: '/users/editflavour',
+        url: '/flavours/editflavour/' + idInEditing,
         dataType: 'JSON'
       }).done(function( response ) {
   
@@ -111,6 +111,11 @@ function addFlavour(event) {
   
           // Update the table
           populateTable();
+
+          // reset into Add mode
+          idInEditing = '';
+          $("#addFlavourHeader").text("Add Flavour");
+          $("#btnAddFlavour").text("Add Flavour");
   
         }
         else {
@@ -120,11 +125,6 @@ function addFlavour(event) {
   
         }
       });
-
-      // reset into Add mode
-      editMode = false;
-      $("addFlavourHeader").text("Add Flavour");
-      $("btnAddFlavour").text("Add Flavour");
     }
     // otherwise, add the flavour to the DB for the first time
     else {    
@@ -132,7 +132,7 @@ function addFlavour(event) {
       $.ajax({
         type: 'POST',
         data: flavourEntry,
-        url: '/users/addflavour',
+        url: '/flavours/addflavour',
         dataType: 'JSON'
       }).done(function( response ) {
   
@@ -167,26 +167,23 @@ function editFlavour(event) {
   event.preventDefault();
 
   // set the form to Edit mode 
-  editFlavour = true;
-  $("addFlavourHeader").text("Edit Flavour");
-  $("btnAddFlavour").text("Edit Flavour");
+  idInEditing = $(this).attr('rel');
   
-  // fill in text fields with info on the flavour from the database
-    // Retrieve flavour_name from link rel attribute
-    var thisFlavourName = $(this).attr('rel');
-    
-    // Get Index of object based on id value
-    var arrayPosition = flavourListData.map(function(arrayItem) { return arrayItem.flavour_name; }).indexOf(thisFlavourName);
-
-    // Get our Flavour Object
+  // fill in text fields with info on the flavour from the database 
+    // Get Index of flavour object based on id value
+    var arrayPosition = flavourListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(idInEditing);
+    // Get Flavour Object
     var thisFlavourObject = flavourListData[arrayPosition];
 
-    //Populate text boxes
-    $('#inputFlavourName').text(thisFlavourObject.flavour_name);
-    $('#inputFlavourSupplier').text(thisFlavourObject.supplier);
-    $('#inputFlavourProductType').text(thisFlavourObject.product_type);
-    $('#inputFlavourQuantityPerUnit').text(thisFlavourObject.quantity_per_unit);
-    $('#inputFlavourPrice').text(thisFlavourObject.price);
+  //Populate text boxes
+  $("#addFlavourHeader").text("Edit Flavour");
+  $('#inputFlavourName').val(thisFlavourObject.flavour_name);
+  $("#addFlavourHeader").val(thisFlavourObject.flavour_name);
+  $('#inputFlavourSupplier').val(thisFlavourObject.supplier);
+  $('#inputFlavourProductType').val(thisFlavourObject.product_type);
+  $('#inputFlavourQuantityPerUnit').val(thisFlavourObject.quantity_per_unit);
+  $('#inputFlavourPrice').val(thisFlavourObject.price);
+  $("#btnAddFlavour").text("Edit Flavour");
 };
 
 // Delete Flavour
@@ -203,7 +200,7 @@ function deleteFlavour(event) {
       // If they did, do our delete
       $.ajax({
         type: 'DELETE',
-        url: '/users/deleteflavour/' + $(this).attr('rel')
+        url: '/flavours/deleteflavour/' + $(this).attr('rel')
       }).done(function( response ) {
   
         // Check for a successful (blank) response
