@@ -49,73 +49,55 @@
 			<div class="container" ng-controller="AppCtrl">
 				<h1 class="sectionTitle" style="margin-top: 5%; margin-bottom: 3%">On the Menu</h1>
 				<div class="menu_subsection" ng-repeat="flavour in flavours" style="margin-bottom: 5%">
-						<div class="col-md-4 flav_section">
-							<img class=".img-responsive" alt="{{flavour.alt}}" ng-src="images/flavours/{{flavour.flavId}}">
-							<a href="#{{flavour.modalID}}" data-toggle="modal"><span class="text-content" style="font-family: 'Roboto', sans-serif"><span>{{flavour.description}}</span></span></a>
-						</div>
-				</div>
-				<!-- Modal -->
-<!-- 				<div class="modal fade" id="{{flavour.modalID}}" role="dialog">
-					<div class="modal-dialog">
-
-	
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">{{flavour.modalHeader}}</h4>
-							</div>
-							<div class="modal-body">
-								<p>{{flavour.modalDescription}}</p>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							</div>
-						</div>
-
+					<div class="col-md-4 flav_section">
+						<img class=".img-responsive" alt="{{flavour.alt}}" ng-src="images/flavours/{{flavour.flavId}}">
+						<a href="#{{flavour.modalID}}" data-toggle="modal"><span class="text-content" style="font-family: 'Roboto', sans-serif"><span>{{flavour.description}}</span></span></a>
 					</div>
-				</div>	 -->	
+				</div>
 			</div>
 			<br>
 			<br>
 		</div>
 	<!-- /Main -->
-		<!-- Tweet -->
-		<div id="tweet">
-			<div class="container">
-				<section>
-					<blockquote  style="color:#fff">A wise one once said &ldquo;You can't purchase happiness... but you can purchase ice cream. #stayGucci &rdquo;</blockquote>
-				</section>
-			</div>
+	<!-- Tweet -->
+	<div id="tweet">
+		<div class="container">
+			<section>
+				<blockquote  style="color:#fff">A wise one once said &ldquo;You can't purchase happiness... but you can purchase ice cream. #stayGucci &rdquo;</blockquote>
+			</section>
 		</div>
+	</div>
 	<!-- /Tweet -->
 
-		<!-- Footer -->
-		<div id="footer">
-			<div class="container">
-				<section>
-					<header>
-						<h2>Get in touch</h2>
-						<span class="byline" style="color:#fff">Please email us at <span> frostbite@mcgilleus.ca </span> for further inquiries</span>
-						<p style="color:#fff">We are open Monday to Friday from 12pm to 5pm! All year long!</p>
-						<p style="color:#fff">Note: During certain seasons our hours are extended! Check Facebook
-and Instagram for our current hours.</p>
-
-					</header>
-					<ul class="contact">
-						<li class="active"><a href="https://www.facebook.com/FrostbitesEus?ref=br_tf" target="_blank" class="fa fa-facebook"><span>Facebook</span></a></li>
-						<li><a href="https://www.instagram.com/frostbite_icecream/" target="_blank" class="fa fa-instagram"><span>Pinterest</span></a></li>
-					</ul>
-				</section>
-			</div>
+	<!-- Footer -->
+	<div id="footer">
+		<div class="container">
+			<section>
+				<header>
+					<h2>Get in touch</h2>
+					<br>
+					<br>
+					<span>
+					<p style="color:#fff">Please email us at <a href="mailto:frostbite@mcgilleus.ca">frostbite@mcgilleus.ca</a> for further inquiries</p>
+					<p style="color:#fff">We are open Monday to Friday from 12 PM to 5 PM, including over the summer!</p>
+					<span style="color:#fff">Note: During certain seasons, our hours are extended! Check Facebook and Instagram for our current hours.</span>
+					</span>
+				</header>
+				<ul class="contact">
+					<li class="active"><a href="https://www.facebook.com/FrostbitesEus?ref=br_tf" target="_blank" class="fa fa-facebook"><span>Facebook</span></a></li>
+					<li><a href="https://www.instagram.com/frostbite_icecream/" target="_blank" class="fa fa-instagram"><span>Instagram</span></a></li>
+				</ul>
+			</section>
 		</div>
+	</div>
 
 
 	<!-- Copyright -->
-		<div id="copyright">
-			<div class="container" style="color:white">
-				Operated by the EUS - An Undergraduate Students' Association at McGill Univeristy
-			</div>
+	<div id="copyright">
+		<div class="container" style="color:white">
+			Operated by the EUS - An Undergraduate Students' Association at McGill Univeristy
 		</div>
+	</div>
 
 
 	</body>
