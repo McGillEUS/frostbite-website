@@ -29,7 +29,7 @@ $(document).ready(function() {
 
 // Functions =============================================================
 
-// Fill table with data
+// Fill flavour list table with data
 function populateTable() {
 
   // Empty content string
@@ -56,6 +56,31 @@ function populateTable() {
   });
 };
 
+// Fill flavour history table with data
+function populateFlavourHistory(flavourName) {
+  // Empty content string
+  var tableContent = '';
+
+  $.getJSON( '/flavours/tubHistory', function( data ) {
+
+    // For each item in our JSON that matches the flavour we're interested in, add a table row and cells to the content string
+    $.each(data, function(){
+      if (this.flavour == flavourName) {
+        tableContent += '<tr>';
+        tableContent += '<td>' + this.date_opened + '</td>';
+        tableContent += '<td>' + this.date_closed + '</td>';
+        tableContent += '<td>' + getWorkingDays(this.date_opened, this.date_closed) + '</td>';
+        tableContent += '<td><a href="#" class="linkedittub" rel="' + this._id + '">edit</a></td>';
+        tableContent += '<td><a href="#" class="linkdeletetub" rel="' + this._id + '">delete</a></td>';
+        tableContent += '</tr>';
+      }
+    });
+
+    // Inject the whole content string into our existing HTML table
+    $('#flavourHistory table tbody').html(tableContent);
+  });
+}
+
 // Show Flavour Info
 function showFlavourInfo(event) {
 
@@ -80,27 +105,7 @@ function showFlavourInfo(event) {
     $('#flavourInfoPrice').text(thisFlavourObject.price);
 
   /* populate flavour history */
-  // Empty content string
-  var tableContent = '';
-
-  $.getJSON( '/flavours/tubHistory', function( data ) {
-
-    // For each item in our JSON that matches the flavour we're interested in, add a table row and cells to the content string
-    $.each(data, function(){
-      if (this.flavour == thisFlavourName) {
-        tableContent += '<tr>';
-        tableContent += '<td>' + this.date_opened + '</td>';
-        tableContent += '<td>' + this.date_closed + '</td>';
-        tableContent += '<td>' + getWorkingDays(this.date_opened, this.date_closed) + '</td>';
-        tableContent += '<td><a href="#" class="linkedittub" rel="' + this._id + '">edit</a></td>';
-        tableContent += '<td><a href="#" class="linkdeletetub" rel="' + this._id + '">delete</a></td>';
-        tableContent += '</tr>';
-      }
-    });
-
-    // Inject the whole content string into our existing HTML table
-    $('#flavourHistory table tbody').html(tableContent);
-  });
+  populateFlavourHistory(thisFlavourName);
 };
 
 // Add Flavour
@@ -287,27 +292,7 @@ function deleteTub(event) {
       });
   
         // Update the table
-          // TODO improve code reuse
-        var tableContent = '';
-
-        $.getJSON( '/flavours/tubHistory', function( data ) {
-
-          // For each item in our JSON that matches the flavour we're interested in, add a table row and cells to the content string
-          $.each(data, function(){
-            if (this.flavour == $('#flavourInfoFlavour').text()) {
-              tableContent += '<tr>';
-              tableContent += '<td>' + this.date_opened + '</td>';
-              tableContent += '<td>' + this.date_closed + '</td>';
-              tableContent += '<td>' + getWorkingDays(this.date_opened, this.date_closed) + '</td>';
-              tableContent += '<td><a href="#" class="linkedittub" rel="' + this._id + '">edit</a></td>';
-              tableContent += '<td><a href="#" class="linkdeletetub" rel="' + this._id + '">delete</a></td>';
-              tableContent += '</tr>';
-            }
-          });
-    
-          // Inject the whole content string into our existing HTML table
-          $('#flavourHistory table tbody').html(tableContent);
-        });
+        populateFlavourHistory($('#flavourInfoFlavour').text());
     }
     else {
   
@@ -362,27 +347,7 @@ function openTub() {
   });
 
   // Update the table
-    // TODO improve code reuse
-  var tableContent = '';
-
-  $.getJSON( '/flavours/tubHistory', function( data ) {
-
-    // For each item in our JSON that matches the flavour we're interested in, add a table row and cells to the content string
-    $.each(data, function(){
-      if (this.flavour == $('#flavourInfoFlavour').text()) {
-        tableContent += '<tr>';
-        tableContent += '<td>' + this.date_opened + '</td>';
-        tableContent += '<td>' + this.date_closed + '</td>';
-        tableContent += '<td>' + getWorkingDays(this.date_opened, this.date_closed) + '</td>';
-        tableContent += '<td><a href="#" class="linkedittub" rel="' + this._id + '">edit</a></td>';
-        tableContent += '<td><a href="#" class="linkdeletetub" rel="' + this._id + '">delete</a></td>';
-        tableContent += '</tr>';
-      }
-    });
-
-    // Inject the whole content string into our existing HTML table
-    $('#flavourHistory table tbody').html(tableContent);
-  });
+  populateFlavourHistory($('#flavourInfoFlavour').text());
 }
 
 // close a tub in tubHistory
