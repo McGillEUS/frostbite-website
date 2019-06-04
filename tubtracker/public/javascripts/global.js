@@ -16,6 +16,10 @@ $(document).ready(function() {
   $('#flavourList table tbody').on('click', 'td a.linkeditflavour', editFlavour);
   // Delete Flavour link click
   $('#flavourList table tbody').on('click', 'td a.linkdeleteflavour', deleteFlavour);
+  // Open Tub button click
+  $('#btnOpenTub').on('click', openTub);
+  // Close Tub button click
+  $('#btnCloseTub').on('click', closeTub);
 
 });
 
@@ -57,6 +61,7 @@ function showFlavourInfo(event) {
     // Retrieve flavour_name from link rel attribute
     var thisFlavourName = $(this).attr('rel');
   
+    /* populate flavour info */
     // Get Index of object based on id value
     var arrayPosition = flavourListData.map(function(arrayItem) { return arrayItem.flavour_name; }).indexOf(thisFlavourName);
 
@@ -64,9 +69,32 @@ function showFlavourInfo(event) {
     var thisFlavourObject = flavourListData[arrayPosition];
 
     //Populate Info Box
+    $('#flavourInfoFlavour').text(thisFlavourObject.flavour_name);
+    $('#flavourInfoSupplier').text(thisFlavourObject.supplier);
     $('#flavourInfoType').text(thisFlavourObject.product_type);
     $('#flavourInfoQuantity').text(thisFlavourObject.quantity_per_unit);
     $('#flavourInfoPrice').text(thisFlavourObject.price);
+
+  /* populate flavour history */
+  // Empty content string
+  var tableContent = '';
+
+  $.getJSON( '/flavours/tubHistory', function( data ) {
+
+    // For each item in our JSON that matches the flavour we're interested in, add a table row and cells to the content string
+    $.each(data, function(){
+      if (this.flavour == thisFlavourName) {
+        tableContent += '<tr>';
+        tableContent += '<td>' + this.date_opened + '</td>';
+        tableContent += '<td>' + this.date_closed + '</td>';
+        tableContent += '<td>' + getWorkingDays(this.date_opened, this.date_closed) + '</td>';
+        tableContent += '</tr>';
+      }
+    });
+
+    // Inject the whole content string into our existing HTML table
+    $('#flavourHistory table tbody').html(tableContent);
+  });
 };
 
 // Add Flavour
@@ -221,3 +249,10 @@ function deleteFlavour(event) {
     }
   
   };
+
+// get working days that a tub has been open
+  // TODO move this information to be stored inside the DB, with a refresh of all the values whenever the semesterDates or daysClosed collections are altered
+function getWorkingDays(openDate, closeDate) {
+  // TODO
+  return 0;
+}

@@ -10,6 +10,12 @@ block content
     #flavourInfo
       h2 Flavour Info
       p
+        strong Flavour:
+        |  <span id='flavourInfoFlavour'></span>
+        br
+        strong Supplier:
+        |  <span id='flavourInfoSupplier'></span>
+        br
         strong Product Type:
         |  <span id='flavourInfoType'></span>
         br
@@ -18,11 +24,14 @@ block content
         br
         strong Price:
         |  <span id='flavourInfoPrice'></span>
+      #logOpenClose
+        button#btnOpenTub Open Tub
+        button#btnCloseTub Close Tub
     // /FLAVOUR INFO
 
     // FLAVOUR HISTORY
-    h2 Flavour History
     #flavourHistory
+      h2 Flavour History
       table
         thead
           th Open

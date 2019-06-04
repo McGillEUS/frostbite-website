@@ -11,6 +11,16 @@ router.get('/flavourlist', function(req, res) {
     });
 });
 
+/* GET tubHistory */
+router.get('/tubHistory', function(req, res) {
+  req.db.get('tubHistory').find(                 // in the tubHistory collection of our database, find a document
+    {},                                           // indicate that we want all of the documents
+    {},                                           
+    function(e,docs){
+      res.json(docs);
+    });
+});
+
 /* POST to addflavour */
 router.post('/addflavour', function(req, res) {
   req.db.get('flavourlist').insert(                 // in the flavourlist collection of our database, perform an insert of a document
