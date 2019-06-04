@@ -16,6 +16,10 @@ $(document).ready(function() {
   $('#flavourList table tbody').on('click', 'td a.linkeditflavour', editFlavour);
   // Delete Flavour link click
   $('#flavourList table tbody').on('click', 'td a.linkdeleteflavour', deleteFlavour);
+  // Edit Tub link click
+  $('#flavourHistory table tbody').on('click', 'td a.linkedittub', editTub);
+  // Delete Tub link click
+  $('#flavourHistory table tbody').on('click', 'td a.linkdeletetub', deleteTub);
   // Open Tub button click
   $('#btnOpenTub').on('click', openTub);
   // Close Tub button click
@@ -88,6 +92,8 @@ function showFlavourInfo(event) {
         tableContent += '<td>' + this.date_opened + '</td>';
         tableContent += '<td>' + this.date_closed + '</td>';
         tableContent += '<td>' + getWorkingDays(this.date_opened, this.date_closed) + '</td>';
+        tableContent += '<td><a href="#" class="linkedittub" rel="' + this._id + '">edit</a></td>';
+        tableContent += '<td><a href="#" class="linkdeletetub" rel="' + this._id + '">delete</a></td>';
         tableContent += '</tr>';
       }
     });
@@ -250,6 +256,68 @@ function deleteFlavour(event) {
   
   };
 
+  // Edit Tub
+function editTub(event) {
+  // TODO
+};
+
+// Delete Tub
+function deleteTub(event) {
+    event.preventDefault();
+  
+    // Pop up a confirmation dialog
+    var confirmation = confirm('Are you sure you want to delete this tub?');
+  
+    // Check and make sure the flavour confirmed
+    if (confirmation === true) {
+  
+      // If they did, do our delete
+      $.ajax({
+        type: 'DELETE',
+        url: '/flavours/deletetub/' + $(this).attr('rel')
+      }).done(function( response ) {
+  
+        // Check for a successful (blank) response
+        if (response.msg === '') {
+            // TODO
+        }
+        else {
+          alert('Error: ' + response.msg);
+        }  
+      });
+  
+        // Update the table
+          // TODO improve code reuse
+        var tableContent = '';
+
+        $.getJSON( '/flavours/tubHistory', function( data ) {
+
+          // For each item in our JSON that matches the flavour we're interested in, add a table row and cells to the content string
+          $.each(data, function(){
+            if (this.flavour == $('#flavourInfoFlavour').text()) {
+              tableContent += '<tr>';
+              tableContent += '<td>' + this.date_opened + '</td>';
+              tableContent += '<td>' + this.date_closed + '</td>';
+              tableContent += '<td>' + getWorkingDays(this.date_opened, this.date_closed) + '</td>';
+              tableContent += '<td><a href="#" class="linkedittub" rel="' + this._id + '">edit</a></td>';
+              tableContent += '<td><a href="#" class="linkdeletetub" rel="' + this._id + '">delete</a></td>';
+              tableContent += '</tr>';
+            }
+          });
+    
+          // Inject the whole content string into our existing HTML table
+          $('#flavourHistory table tbody').html(tableContent);
+        });
+    }
+    else {
+  
+      // If they said no to the confirm, do nothing
+      return false;
+  
+    }
+  
+  };
+
 // get working days that a tub has been open
   // TODO move this information to be stored inside the DB, with a refresh of all the values whenever the semesterDates or daysClosed collections are altered
 function getWorkingDays(openDate, closeDate) {
@@ -306,6 +374,8 @@ function openTub() {
         tableContent += '<td>' + this.date_opened + '</td>';
         tableContent += '<td>' + this.date_closed + '</td>';
         tableContent += '<td>' + getWorkingDays(this.date_opened, this.date_closed) + '</td>';
+        tableContent += '<td><a href="#" class="linkedittub" rel="' + this._id + '">edit</a></td>';
+        tableContent += '<td><a href="#" class="linkdeletetub" rel="' + this._id + '">delete</a></td>';
         tableContent += '</tr>';
       }
     });

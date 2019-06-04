@@ -63,4 +63,11 @@ router.delete('/deleteflavour/:id', function(req, res) {
   });
 });
 
+/* DELETE to deletetub */
+router.delete('/deletetub/:id', function(req, res) {
+  req.db.get('tubHistory').remove({ '_id' : req.params.id }, function(err) {   // in the tubHistory collection of our database, perform a removal of a document
+    res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
+  });
+});
+
 module.exports = router;
