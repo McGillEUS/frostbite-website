@@ -32,6 +32,17 @@ router.post('/addflavour', function(req, res) {
     });
 });
 
+/* POST to addtub */
+router.post('/addtub', function(req, res) {
+  req.db.get('tubHistory').insert(                 // in the tubHistory collection of our database, perform an insert of a document
+    req.body,                                       // insert the document information
+    function(err, result){                          // send an error if anything goes wrong
+      res.send(
+        (err === null) ? { msg: '' } : { msg: err }
+      );
+    });
+});
+
 /* PUT to editflavour */
 router.put('/editflavour/:id', function(req, res) {
   req.db.get('flavourlist').update(                 // in the flavourlist collection of our database, perform an update of a document

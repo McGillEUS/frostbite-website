@@ -256,3 +256,66 @@ function getWorkingDays(openDate, closeDate) {
   // TODO
   return 0;
 }
+
+// open a tub in tubHistory
+function openTub() {
+
+  // Prevent Link from Firing
+  event.preventDefault();
+
+  // create entry for DB
+  var tubEntry = {
+    'flavour': $('#flavourInfoFlavour').text(),
+    'supplier': $('#flavourInfoSupplier').text(),
+    'product_type': $('#flavourInfoType').text(),
+    'quantity_per_unit': {'value' : $('#flavourInfoQuantity').text(), 'unit' : 'litres'},      // TODO change once collections are restructured to match
+    'price': {'value' : $('#flavourInfoPrice').text(), 'unit' : 'CAD'},                        // TODO change once collections are restructured to match
+    'open': true,
+    'date_opened': new Date(),
+    'date_closed': '',
+  }
+
+  // Use AJAX to POST a tub to our addtub service
+  $.ajax({
+    type: 'POST',
+    data: tubEntry,
+    url: '/flavours/addtub',
+    dataType: 'JSON'
+  }).done(function( response ) {
+
+    // Check for successful (blank) response
+    if (response.msg === '') {
+      // TODO
+    } else {
+      // If something goes wrong, alert the error message that our service returned
+      alert('Error: ' + response.msg);
+
+    }
+  });
+
+  // Update the table
+    // TODO improve code reuse
+  var tableContent = '';
+
+  $.getJSON( '/flavours/tubHistory', function( data ) {
+
+    // For each item in our JSON that matches the flavour we're interested in, add a table row and cells to the content string
+    $.each(data, function(){
+      if (this.flavour == $('#flavourInfoFlavour').text()) {
+        tableContent += '<tr>';
+        tableContent += '<td>' + this.date_opened + '</td>';
+        tableContent += '<td>' + this.date_closed + '</td>';
+        tableContent += '<td>' + getWorkingDays(this.date_opened, this.date_closed) + '</td>';
+        tableContent += '</tr>';
+      }
+    });
+
+    // Inject the whole content string into our existing HTML table
+    $('#flavourHistory table tbody').html(tableContent);
+  });
+}
+
+// close a tub in tubHistory
+function closeTub() {
+  // TODO
+}
