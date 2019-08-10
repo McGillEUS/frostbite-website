@@ -158,5 +158,19 @@ frostbite.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 			}
 
 		];
+
+	$.ajax({
+		'async': false,
+		'global': false,
+		'url': "tubtracker/tubs/opentubs.json",
+		'dataType': "json",
+		'success': function (data) {
+			$scope.openTubs = [];
+			angular.forEach(data, function(entry) {
+				$scope.openTubs.push(entry.flavour);
+			});
+		}
+	});
+
 }]);
 	

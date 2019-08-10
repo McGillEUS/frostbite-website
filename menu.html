@@ -47,6 +47,17 @@
 	<!-- Main -->
 		<div id="menuMain">
 			<div class="container" ng-controller="AppCtrl">
+				<h1 class="sectionTitle" style="margin-top: 5%; margin-bottom: 3%">Currently Open</h1>
+				<p class="sectionSubitle" style="margin-top: 5%; margin-bottom: 3%">These are the flavours we have open right now, so come thru and grab a scoop before they run out.</p>
+				<div class="menu_subsection" ng-repeat="flavourName in openTubs" style="margin-bottom: 5%">
+					<div class="col-md-4 flav_section">
+						<p>{{ flavourName }}</p>
+						<!--img class=".img-responsive" alt="{{flavour.alt}}" ng-src="images/flavours/{{flavour.flavId}}">
+						<a href="#{{flavour.modalID}}" data-toggle="modal"><span class="text-content" style="font-family: 'Roboto', sans-serif"><span>{{flavour.description}}</span></span></a-->
+					</div>
+				</div>
+			</div>
+			<div class="container" ng-controller="AppCtrl">
 				<h1 class="sectionTitle" style="margin-top: 5%; margin-bottom: 3%">On the Menu</h1>
 				<div class="menu_subsection" ng-repeat="flavour in flavours" style="margin-bottom: 5%">
 					<div class="col-md-4 flav_section">

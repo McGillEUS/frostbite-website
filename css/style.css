@@ -44,6 +44,11 @@
 			color: inherit;
 			text-decoration: none;
 		}
+
+	h6
+	{
+		font-weight: 150;
+	}
 		
 	strong, b
 	{
@@ -1023,7 +1028,11 @@
 		.sectionTitle{
 			font-size: 40px;
 			margin-bottom: 20px;	
+		}
 
+		.sectionSubitle {
+			font-size: 20px;
+			margin-bottom: 20px;
 		}
 
 		.factSection{
