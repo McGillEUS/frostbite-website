@@ -11,7 +11,7 @@
 
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 		<noscript>
 			<link rel="stylesheet" href="css/mycss.css"/>
 			<link rel="stylesheet" href="css/skel-noscript.css" />
@@ -46,6 +46,17 @@
 
 	<!-- Main -->
 		<div id="menuMain">
+			<div class="container" ng-controller="AppCtrl">
+				<h1 class="sectionTitle" style="margin-top: 5%; margin-bottom: 3%">Currently Open</h1>
+				<p class="sectionSubitle" style="margin-top: 5%; margin-bottom: 3%">These are the flavours we have open right now, so come thru and grab a scoop before they run out.</p>
+				<div class="menu_subsection" ng-repeat="flavourName in openTubs" style="margin-bottom: 5%">
+					<div class="col-md-4 flav_section">
+						<p>{{ flavourName }}</p>
+						<!--img class=".img-responsive" alt="{{flavour.alt}}" ng-src="images/flavours/{{flavour.flavId}}">
+						<a href="#{{flavour.modalID}}" data-toggle="modal"><span class="text-content" style="font-family: 'Roboto', sans-serif"><span>{{flavour.description}}</span></span></a-->
+					</div>
+				</div>
+			</div>
 			<div class="container" ng-controller="AppCtrl">
 				<h1 class="sectionTitle" style="margin-top: 5%; margin-bottom: 3%">On the Menu</h1>
 				<div class="menu_subsection" ng-repeat="flavour in flavours" style="margin-bottom: 5%">
@@ -101,13 +112,12 @@
 
 
 	</body>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-
-		<script src="js/skel.min.js"></script>
-		<script src="js/skel-panels.min.js"></script>
-		<script src="js/init.js"></script>
+	<script type="text/javascript" src="lib/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/angular.min.js"></script>
+	<script src="js/skel.min.js"></script>
+	<script src="js/skel-panels.min.js"></script>
+	<script src="js/init.js"></script>
 	<script src="js/controller/buttonsDemo1.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular.min.js"></script>
 	<script src="js/frostbite.js"></script>
 
 	<!-- Latest compiled and minified JavaScript -->
