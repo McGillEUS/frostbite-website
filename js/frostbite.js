@@ -167,7 +167,7 @@ frostbite.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 		'success': function (data) {
 			$scope.openTubs = [];
 			angular.forEach(data, function(entry) {
-				$scope.openTubs.push(entry.flavour);
+				$scope.openTubs.push(entry.flavour.flavour);
 			});
 		}
 	});
